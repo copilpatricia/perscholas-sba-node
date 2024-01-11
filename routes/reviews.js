@@ -26,12 +26,27 @@ router
 
 router
 .route("/:id")
+.get((req, res) => {
+    const review = reviews.find((r) => r.id == req.params.id);
+    if(review) res.json(review);
+    else {console.log("error")}
+})
 .patch((req, res) => {
     const review = reviews.find((r, i) => {
         if(r.id == req.params.id) {
             for(const key in req.body) {
                 reviews[i][key] = req.body[key];
             }
+            return true;
+        }
+    })
+    if(review) res.json(review);
+    else {console.log("error")}
+})
+.delete((req, res) => {
+    const review = reviews.find((r, i) => {
+        if(r.id == req.params.id) {
+            reviews.splice(i, 1);
             return true;
         }
     })
