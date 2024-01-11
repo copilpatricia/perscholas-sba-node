@@ -1,11 +1,22 @@
 const express = require('express');
+
 const firstMiddleware = require('./middlewares/firstMiddleware');
 const secondMiddleware = require('./middlewares/secondMiddleware');
+
 const users = require('./routes/users');
 const products = require('./routes/products');
-const reviews = require('./routes/reviews')
+const reviews = require('./routes/reviews');
+
 const app = express();
 const port = 3000;
+
+
+//BEFORE ANY ROUTES!!- middlewares
+//look for any data in the request.body
+app.use(express.json());
+//looks for any data in the url
+app.use(express.urlencoded({ extended: true }));
+//
 
 // middlewares
 app.use(firstMiddleware);
