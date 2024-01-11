@@ -1,5 +1,6 @@
 const express = require('express');
 const reviews = require("../data/reviews");
+const error = require("../utilities/error")
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router
 })
 // POST ROUTE
 
-.post((req, res) => {
+.post((req, res, next) => {
     if(req.body.name && req.body.review) {
         const review = {
             id: reviews[reviews.length -1].id + 1,
@@ -21,17 +22,17 @@ router
         };
         reviews.push(review);
         res.json(reviews[reviews.length - 1]);
-    } else { console.log("insufficient data")}
+    } else next(error(404, "Insufficient data. Please provide the information required."))
 });
 
 router
 .route("/:id")
-.get((req, res) => {
+.get((req, res, next) => {
     const review = reviews.find((r) => r.id == req.params.id);
     if(review) res.json(review);
-    else {console.log("error")}
+    else next(error(404, "Resource not found"))
 })
-.patch((req, res) => {
+.patch((req, res, next) => {
     const review = reviews.find((r, i) => {
         if(r.id == req.params.id) {
             for(const key in req.body) {
@@ -41,9 +42,9 @@ router
         }
     })
     if(review) res.json(review);
-    else {console.log("error")}
+    else next(error(404, "Resource not found"))
 })
-.delete((req, res) => {
+.delete((req, res, next) => {
     const review = reviews.find((r, i) => {
         if(r.id == req.params.id) {
             reviews.splice(i, 1);
@@ -51,7 +52,7 @@ router
         }
     })
     if(review) res.json(review);
-    else {console.log("error")}
+    else next(error(404, "Resource not found"))
 })
 
 
