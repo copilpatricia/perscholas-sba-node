@@ -1,19 +1,20 @@
 const express = require('express');
 const users = require('../data/users');
+const error = require("../utilities/error");
 
 const router = express.Router();
 
-// GET ROUTE
-
 router
 .route("/")
+// GET ROUTE
 .get((req, res) => {
     res.json(users);
 })
-.post((req, res) => {
+//POST ROUTE
+.post((req, res, next) => {
     if(req.body.name && req.body.username && req.body.email){
       if(users.find((u) => u.username == req.body.username)) {
-        console.log("error")
+        next(error(404, "Username is taken"))
         return;
       } 
       const user = {
@@ -24,8 +25,26 @@ router
       }
       users.push(user);
       res.json(users[users.length - 1]);
-    }else {
-        console.log("insufficient data")
-    }
+    }else next(error(404, "Insufficient data. Please provide the information required."))
 })
-module.exports = router;
+
+router
+.route("/:id")
+.get((req, res, next) => {
+  const user = users.find((u) => u.id == req.params.id)
+  if(user) res.json(user);
+  else next(error(404, "Resource not found"))
+})
+.patch((req, res, next) => {
+  const user = users.find((u, i) => {
+    if(u.id == req.params.id) {
+      for(const key in req.body) {
+        users[i][key] = req.body[key];
+      }
+      return true;
+    }
+  })
+  if(user) res.json(user);
+  else next(error(404, "Resource not found"))
+})
+module.exports = router

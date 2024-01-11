@@ -1,6 +1,6 @@
 const express = require('express');
 const reviews = require("../data/reviews");
-const error = require("../utilities/error")
+const error = require("../utilities/error");
 
 const router = express.Router();
 
@@ -32,6 +32,8 @@ router
     if(review) res.json(review);
     else next(error(404, "Resource not found"))
 })
+
+//PATCH ROUTE
 .patch((req, res, next) => {
     const review = reviews.find((r, i) => {
         if(r.id == req.params.id) {
@@ -44,6 +46,7 @@ router
     if(review) res.json(review);
     else next(error(404, "Resource not found"))
 })
+//DELETE ROUTE
 .delete((req, res, next) => {
     const review = reviews.find((r, i) => {
         if(r.id == req.params.id) {
