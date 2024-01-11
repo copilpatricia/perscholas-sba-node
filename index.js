@@ -1,7 +1,8 @@
 const express = require('express');
 const firstMiddleware = require('./middlewares/firstMiddleware');
-const secondMiddleware = require('./middlewares/secondMiddleware')
-const users = require('./routes/users')
+const secondMiddleware = require('./middlewares/secondMiddleware');
+const users = require('./routes/users');
+const products = require('./routes/products')
 const app = express();
 const port = 3000;
 
@@ -11,6 +12,7 @@ app.use(secondMiddleware);
 
 //routes
 app.use("/api/users", users);
+app.use("/api/products", products)
 
 
 app.get("/", (req, res) => {
