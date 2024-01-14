@@ -1,18 +1,30 @@
 body {
-    background-color: red;
+    background-color: #283618;
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
 }
 
 #container {
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-content: center;
+    height: 100vh;
     
 }
 
-#form-container {
-    display: flex;
+#form-container {    
     border: 2px solid black;
     width: 300px;
     height: 300px;
+    background-color: #606c38;
+    padding: 10px;
+    text-align: center;
     
 }
+
+#fname, #lname {
+    margin: 10px 5px;
+}
+
+
+
