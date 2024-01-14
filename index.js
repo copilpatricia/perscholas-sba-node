@@ -45,6 +45,11 @@ app.get("/form", (req, res) => {
   });
 });
 
+// interaction between the form and the RESTful API
+app.post("/form/message", (req, res) => {
+  res.json({ message: "Your form interacted with your RESTful API" });
+});
+
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({ error: err.message });
