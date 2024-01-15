@@ -9,6 +9,10 @@ const router = express.Router();
 router
 .route("/")
 .get((req, res, next) => {
+    const keys = ["blue", "yellow"];
+
+    var key = req.query["color"];
+    req.key = key;
     res.json(products);
 })
 
