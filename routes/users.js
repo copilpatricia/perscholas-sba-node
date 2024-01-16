@@ -8,7 +8,14 @@ router
 .route("/")
 // GET ROUTE
 .get((req, res) => {
-    res.json(users);
+    const links = [
+      {
+          href: "users/:id",
+          rel: ":id",
+          type: "GET",
+      }
+    ];
+    res.json(users, links);
 })
 //POST ROUTE
 .post((req, res, next) => {
@@ -31,8 +38,16 @@ router
 router
 .route("/:id")
 .get((req, res, next) => {
-  const user = users.find((u) => u.id == req.params.id)
-  if(user) res.json(user);
+  const user = users.find((u) => u.id == req.params.id);
+  const links = [
+    {
+      href: `/${req.params.id}`,
+      rel: "",
+      type: "PATCH"
+    },
+  ]
+
+  if(user) res.json({user, links});
   else next(error(404, "Resource not found"))
 })
 .patch((req, res, next) => {

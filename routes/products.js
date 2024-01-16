@@ -9,18 +9,29 @@ const router = express.Router();
 router
 .route("/")
 .get((req, res, next) => {
-    const keys = ["blue", "yellow"];
+    const links = [
+        {
+            href: "products/:id",
+            rel: ":id",
+            type: "GET",
+        }
+      ];
 
-    var key = req.query["color"];
-    req.key = key;
-    res.json(products);
+    res.json(products, links);
 })
 
 router
 .route("/:id")
 .get((req, res, next) => {
     const product = products.find((p) => p.id == req.params.id);
-    if(product) res.json(product);
+    const links = [
+        {
+          href: `/${req.params.id}`,
+          rel: "",
+          type: "PATCH"
+        },
+      ]
+    if(product) res.json({product, links});
     else next(error(404, "Resource not found"))
 })
 .patch((req, res, next) => {

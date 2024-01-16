@@ -33,9 +33,6 @@ app.use("/api/users", users);
 app.use("/api/products", products);
 app.use("/api/reviews", reviews);
 
-app.get("/", (req, res) => {
-  res.send("pati");
-});
 
 app.get("/form", (req, res) => {
   res.render("form", {
@@ -50,6 +47,42 @@ app.get("/form/message", (req, res) => {
   res.json({ message: "Your form interacted with your RESTful API" });
 });
 
+
+// HATEOAS links
+app.get("/api", (req, res) => {
+  res.json({
+    links: [
+      {
+        href: "api/users",
+        rel: "users",
+        type: "GET"
+      },
+      {
+        href: "api/users",
+        rel: "users",
+        type: "POST"
+      },
+      {
+        href: "api/products",
+        rel: "products",
+        type: "GET"
+      },
+      {
+        href: "api/reviews",
+        rel: "reviews",
+        type: "GET"
+      },
+      {
+        href: "api/reviews",
+        rel: "reviews",
+        type: "POST"
+      },
+
+
+
+    ]
+  })
+})
 
 
 app.use((err, req, res, next) => {
